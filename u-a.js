@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
   //I'll use it to get a click/tap event on the canvas
   var matContainer = document.getElementById('sketch-holder');
 
-  var cells = [1, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0];
+  var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0 , 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   var matrix = [];
 
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
   ];
 
   var currentRule = 0;
-  var w = 50;
+  var w = 25;
 
   //adding colors:
   //write outside the draw() a function to add colors.
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
     for (var i = 0; i < cells.length; i++){
       //create a row
       //the row is [0,0,0,0,0,0,0,0]
-      matrix.push([0,0,0,0,0,0,0,0,0]);
+      matrix.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
     }
   }
   generateMatrix();
