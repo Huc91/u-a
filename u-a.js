@@ -20,11 +20,38 @@ function debug() {
 }
 //***************************
 
-//code
+//get NASA data, I'll use them later
 
+//demo key Hourly Limit: 30 requests per IP address per hour
+//Daily Limit: 50 requests per IP address per day
+//https://api.nasa.gov/api.html#web-service-rate-limits
+//CORS query //https://api.nasa.gov/planetary/apod/direct?date=2015-06-03&api_key=DEMO_KEY
+
+var data;
+var url = 'https://api.nasa.gov/planetary/apod?api_key=pJ3uPMZzmra9ithw4Dc5eWsMvy8uxUmZGqqnapwS';
+var request = new XMLHttpRequest();
+request.open('GET', url, false);
+request.onload = function() {
+  if (request.status >= 200 && request.status < 400) {
+    // Success!
+    data = JSON.parse(request.responseText);
+  } else {
+    data = {'url': 'img/imm.jpg'}
+  }
+};
+request.onerror = function() {
+  // There was a connection error of some sort
+    data = {'url': 'img/imm.jpg'}
+};
+request.send();
+
+
+//define the random integer function
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
+
+//add the event listener to the dom
 document.addEventListener("DOMContentLoaded", function() {
   //sliders
   //creSlider -> slider to add cells
@@ -38,10 +65,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
   //I'll use it to get a click/tap event on the canvas
   var matContainer = document.getElementById('sketch-holder');
+
+
+  //define the cells
+
   //18 var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0 , 0, 0, 0, 0, 0, 0, 0, 0, 0];
   //9  var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0];
   //27 var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0];
-  var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0];
+  var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0 , 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   var matrix = [];
 
@@ -58,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
   ];
 
   var currentRule = 0;
-  var w = 50;
+  var w = 25;
 
   //adding colors:
   //write outside the draw() a function to add colors.
@@ -125,44 +156,19 @@ document.addEventListener("DOMContentLoaded", function() {
   //that's why a use that "weird" p  before p5.js methods
   var s = function( p ) {
 
-    //creativity images array holder
+
     var creArt = [];
-    //emotion image holder GET from APOD API (NASA)
-    var nasaArt;
-    var emoArt;
-    var data;
+    var nasa;
+    p.preload = function(){
+    //creativity images array holder
 
-    p.preload = function() {
-      var maximgs = 20
+    var maximgs = 20;
+    var allimgs = 70;
       for (var i = 1; i <= maximgs; i++) {
-        creArt[i] = p.loadImage('img/cre/'+(getRandomInt(maximgs)+1)+'.jpg');
+        creArt[i] = p.loadImage('img/cre/'+(getRandomInt(70)+1)+'.jpg');
       }
-      //demo key Hourly Limit: 30 requests per IP address per hour
-      //Daily Limit: 50 requests per IP address per day
-      //https://api.nasa.gov/api.html#web-service-rate-limits
-      //CORS query //https://api.nasa.gov/planetary/apod/direct?date=2015-06-03&api_key=DEMO_KEY
-
-      var url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
-
-      var request = new XMLHttpRequest();
-      request.open('GET', url, true);
-
-      request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-          // Success!
-          var data = JSON.parse(request.responseText);
-          emoArt = p.loadImage('https://apod.nasa.gov/apod/image/1803/NGC2023master2_1024.jpg');
-          //console.log(data.url);
-        } else {
-          // We reached our target server, but it returned an error
-        }
-      };
-
-      request.onerror = function() {
-        // There was a connection error of some sort
-      };
-
-      request.send();
+      nasa = p.createImg(data.url);
+      nasa.hide();
     }
 
     //about loop & noLoop: https://p5js.org/reference/#/p5/noLoop
@@ -279,13 +285,17 @@ document.addEventListener("DOMContentLoaded", function() {
           } else {
             //add greyscale or color emotion
               if (getRandomInt(16)+1 <= emoSlider.value && i > 1 && i < matrix.length - 2){
+
                 //add image from NASA APOD json
-                p.image(emoArt,j*w, i*w, w, w);
+                p.fill(125)
+                p.noStroke();
+                p.rect(j*w, i*w, w, w);
+                p.image(nasa,j*w+w/2, i*w+w/2, w, w);
                 //add art
               } else if (getRandomInt(48)+1 <= creSlider.value) {
                 p.fill(0)
                 p.noStroke();
-                p.image(creArt[getRandomInt(18)+1],j*w, i*w, w, w);
+                p.image(creArt[getRandomInt(18)+1],j*w+w/2, i*w+w/2, w, w);
 
                 //add zeros efficiency
               } else if (getRandomInt(32)+1 <= effSlider.value) {
@@ -313,9 +323,8 @@ document.addEventListener("DOMContentLoaded", function() {
     p.createCanvas(800, 500);
     p.stroke(255);
     p.noFill();
+    p.imageMode(p.CENTER);
     //p.noLoop(); //draw doesn't loop
-
-
   };
 
   p.draw = function() {
@@ -329,11 +338,11 @@ document.addEventListener("DOMContentLoaded", function() {
     p.push()
     p.fill(255)
     p.blendMode(p.DIFFERENCE);
-    p.textSize(w*1.45);
+    p.textSize(w*2.9);
     p.textFont('Work Sans');
     p.textAlign(p.LEFT, p.CENTER);
-    p.text('UMANESIMO', 0, 0, w*10, w*2);
-    p.text('ARTIFICIALE', 0, w*7, w*10, w*2);
+    p.text('UMANESIMO', 0, 0, w*(cells.length+1), w*4);
+    p.text('ARTIFICIALE', 0, w*(cells.length-4), w*(cells.length+1), w*4);
     p.pop()
 
 
