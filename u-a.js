@@ -139,8 +139,10 @@ document.addEventListener("DOMContentLoaded", function() {
       //demo key Hourly Limit: 30 requests per IP address per hour
       //Daily Limit: 50 requests per IP address per day
       //https://api.nasa.gov/api.html#web-service-rate-limits
+      //CORS query //https://api.nasa.gov/planetary/apod/direct?date=2015-06-03&api_key=DEMO_KEY
 
       var url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
+
       p.httpGet(url, 'json', false, function(response) {
         // when the HTTP request completes, populate the variable that holds the
         // art from nasa
