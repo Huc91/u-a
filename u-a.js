@@ -130,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function() {
     //emotion image holder GET from APOD API (NASA)
     var nasaArt;
     var emoArt;
+    var data;
 
     p.preload = function() {
       var maximgs = 20
@@ -143,13 +144,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
       var url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY';
 
-      p.httpGet(url, 'json', false, function(response) {
-        // when the HTTP request completes, populate the variable that holds the
-        // art from nasa
-        nasaArt = response;
-        emoArt = p.loadImage(nasaArt.url);
-      });
+      var request = new XMLHttpRequest();
+      request.open('GET', url, true);
 
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          // Success!
+          var data = JSON.parse(request.responseText);
+          emoArt = p.loadImage('https://apod.nasa.gov/apod/image/1803/NGC2023master2_1024.jpg');
+          //console.log(data.url);
+        } else {
+          // We reached our target server, but it returned an error
+        }
+      };
+
+      request.onerror = function() {
+        // There was a connection error of some sort
+      };
+
+      request.send();
     }
 
     //about loop & noLoop: https://p5js.org/reference/#/p5/noLoop
