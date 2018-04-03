@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
   //18 var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0 , 0, 0, 0, 0, 0, 0, 0, 0, 0];
   //9  var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0];
   //27 var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0];
-  var cells = [0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 , 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0];
+  var cells = [0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,1 , 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   var matrix = [];
 
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
   ];
 
   var currentRule = 0;
-  var w = 16;
+  var w = 25;
 
   //adding colors:
   //write outside the draw() a function to add colors.
