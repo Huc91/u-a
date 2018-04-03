@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
   //18 var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0 , 0, 0, 0, 0, 0, 0, 0, 0, 0];
   //9  var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0];
   //27 var cells = [0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0 , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,1 ,1 ,1 ,0 ,0 ,0];
-  var cells = [0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,1 , 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var cells = [0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0 , 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0 ,0 ,0 ,0 ,0 ,0];
 
   var matrix = [];
 
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
   ];
 
   var currentRule = 0;
-  var w = 25;
+  var w = 16;
 
   //adding colors:
   //write outside the draw() a function to add colors.
@@ -338,11 +338,11 @@ document.addEventListener("DOMContentLoaded", function() {
     p.push()
     p.fill(255)
     p.blendMode(p.DIFFERENCE);
-    p.textSize(w*2.9);
+    p.textSize(w*4.3);
     p.textFont('Work Sans');
     p.textAlign(p.LEFT, p.CENTER);
-    p.text('UMANESIMO', 0, 0, w*(cells.length+1), w*4);
-    p.text('ARTIFICIALE', 0, w*(cells.length-4), w*(cells.length+1), w*4);
+    p.text('UMANESIMO', 0, 0, w*(cells.length+1), w*6);
+    p.text('ARTIFICIALE', 0, w*(cells.length-6), w*(cells.length+1), w*6);
     p.pop()
 
 
